@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Task, TaskStatus } from './task.interface';
+import { Task, TaskStatus } from './task.model';
 
 @Injectable()
 export class TasksService {
   private tasks: Task[] = [
-    { description: 'learn NestJS', status: TaskStatus.pending },
+    { id: '1', title: 'learn NestJS', status: TaskStatus.todo },
   ];
 
   getAllTasks(): Task[] {

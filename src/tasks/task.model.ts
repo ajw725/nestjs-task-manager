@@ -1,9 +1,12 @@
 export enum TaskStatus {
-  pending = 'pending',
+  todo = 'todo',
+  in_progress = 'in progress',
   completed = 'completed',
 }
 
 export interface Task {
-  description: string;
+  id: string;
+  title: string;
+  description?: string;
   status: TaskStatus;
 }
