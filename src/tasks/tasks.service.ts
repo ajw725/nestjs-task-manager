@@ -1,6 +1,7 @@
 import { v1 as uuid } from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
+import { CreateTaskDTO } from './dtos/create-task.dto';
 
 @Injectable()
 export class TasksService {
@@ -12,7 +13,8 @@ export class TasksService {
     return this.tasks;
   }
 
-  createTask(title: string, description?: string): Task {
+  createTask(createTaskDTO: CreateTaskDTO): Task {
+    const { title, description } = createTaskDTO;
     const newTask = {
       id: uuid(),
       title,
