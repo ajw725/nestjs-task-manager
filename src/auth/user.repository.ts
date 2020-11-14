@@ -3,6 +3,7 @@ import {
   BadRequestException,
   ConflictException,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { genSalt, hash } from 'bcrypt';
 import { AuthCredentialsDTO } from './dtos/auth-credentials.dto';
@@ -34,28 +35,20 @@ export class UserRepository extends Repository<User> {
     }
   }
 
-  async signIn(userDTO: AuthCredentialsDTO): Promise<User> {
+  async signIn(userDTO: AuthCredentialsDTO): Promise<string> {
     const { username, password } = userDTO;
     const user = await this.findUserByUsername(username);
 
-    const { password: existingHash, salt } = user;
-    const newHash = await this.hashPassword(password, salt);
-
-    if (newHash !== existingHash) {
-      throw new BadRequestException('Username or password is invalid.');
+    if (user && (await user.validatePassword(password))) {
+      return user.username;
     }
 
-    return user;
+    return null;
   }
 
   private async findUserByUsername(username: string): Promise<User> {
     const user = await this.findOne({ username: username });
-
-    if (!user) {
-      throw new BadRequestException('Username or password is invalid.');
-    }
-
-    return user;
+    return user || null;
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {
