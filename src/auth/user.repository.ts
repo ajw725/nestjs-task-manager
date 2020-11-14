@@ -1,5 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import {
+  BadRequestException,
   ConflictException,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -31,6 +32,30 @@ export class UserRepository extends Repository<User> {
       }
       throw new InternalServerErrorException();
     }
+  }
+
+  async signIn(userDTO: AuthCredentialsDTO): Promise<User> {
+    const { username, password } = userDTO;
+    const user = await this.findUserByUsername(username);
+
+    const { password: existingHash, salt } = user;
+    const newHash = await this.hashPassword(password, salt);
+
+    if (newHash !== existingHash) {
+      throw new BadRequestException('Username or password is invalid.');
+    }
+
+    return user;
+  }
+
+  private async findUserByUsername(username: string): Promise<User> {
+    const user = await this.findOne({ username: username });
+
+    if (!user) {
+      throw new BadRequestException('Username or password is invalid.');
+    }
+
+    return user;
   }
 
   private async hashPassword(password: string, salt: string): Promise<string> {

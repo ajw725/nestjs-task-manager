@@ -14,18 +14,7 @@ export class TasksService {
   ) {}
 
   async getTasks(filterDTO: GetTasksFilterDTO): Promise<Task[]> {
-    const { q, status } = filterDTO;
-    let query = this.taskRepository.createQueryBuilder('tasks');
-
-    if (q) {
-      query = query.andWhere('tasks.title ILIKE :q', { q: `%${q}%` });
-    }
-
-    if (status) {
-      query = query.andWhere('tasks.status = :status', { status: status });
-    }
-
-    return await query.getMany();
+    return await this.taskRepository.getTasks(filterDTO);
   }
 
   async getTaskById(id: number): Promise<Task> {
