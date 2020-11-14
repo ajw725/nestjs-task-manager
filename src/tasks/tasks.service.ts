@@ -2,15 +2,14 @@ import { v1 as uuid } from 'uuid';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Task, TaskStatus } from './task.model';
 import { CreateTaskDTO } from './dtos/create-task.dto';
-import { UpdateTaskDTO } from './dtos/update-task.dto';
 import { GetTasksFilterDTO } from './dtos/get-tasks-filter.dto';
 
 @Injectable()
 export class TasksService {
   private tasks: Task[] = [
-    { id: '1', title: 'learn NestJS', status: TaskStatus.todo },
-    { id: '2', title: 'second task', status: TaskStatus.in_progress },
-    { id: '3', title: 'task three', status: TaskStatus.todo },
+    { id: '1', title: 'learn NestJS', status: TaskStatus.TODO },
+    { id: '2', title: 'second task', status: TaskStatus.IN_PROGRESS },
+    { id: '3', title: 'task three', status: TaskStatus.TODO },
   ];
 
   getAllTasks(): Task[] {
@@ -45,16 +44,15 @@ export class TasksService {
       id: uuid(),
       title,
       description,
-      status: TaskStatus.todo,
+      status: TaskStatus.TODO,
     };
     this.tasks = [...this.tasks, newTask];
     return newTask;
   }
 
-  updateTask(id: string, updateTaskDTO: UpdateTaskDTO): Task {
-    const { status } = updateTaskDTO;
+  updateTask(id: string, newStatus: TaskStatus): Task {
     const task = this.getTaskById(id);
-    task.status = status;
+    task.status = newStatus;
     return task;
   }
 
