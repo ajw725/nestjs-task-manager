@@ -1,10 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskStatus } from './task-status.enum';
 import { TaskRepository } from './task.repository';
 import { CreateTaskDTO } from './dtos/create-task.dto';
 import { GetTasksFilterDTO } from './dtos/get-tasks-filter.dto';
 import { Task } from './task.entity';
+import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export class TasksService {
@@ -48,8 +53,12 @@ export class TasksService {
   //   task.status = newStatus;
   //   return task;
   // }
-  // deleteTask(id: string): void {
-  //   const task = this.getTaskById(id); // for not found handling
-  //   this.tasks = this.tasks.filter((t) => t.id !== task.id);
-  // }
+
+  async deleteTask(id: number): Promise<void> {
+    const result = await this.taskRepository.delete(id);
+
+    if (!result.affected) {
+      throw new NotFoundException(`Task with id ${id} not found`);
+    }
+  }
 }
