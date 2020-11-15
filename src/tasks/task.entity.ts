@@ -23,11 +23,10 @@ export class Task extends BaseEntity {
   @Column()
   status: TaskStatus;
 
+  @Column()
+  user_id: number;
+
   @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })
   @JoinColumn({ name: 'user_id' })
   user: User;
-
-  // can't find any other way to have the user id included in the query response
-  @Column()
-  user_id: number;
 }
