@@ -40,7 +40,7 @@ export class TaskRepository extends Repository<Task> {
     const task = new Task();
     task.title = title;
     task.description = description;
-    task.status = TaskStatus.TODO;
+    task.status = TaskStatus.OPEN;
     task.user = user;
 
     try {

@@ -3,9 +3,9 @@ import { TaskStatus } from '../task-status.enum';
 
 export class TaskStatusValidationPipe implements PipeTransform {
   private readonly allowedStatuses: string[] = [
-    TaskStatus.TODO,
+    TaskStatus.OPEN,
     TaskStatus.IN_PROGRESS,
-    TaskStatus.COMPLETED,
+    TaskStatus.DONE,
   ];
 
   transform(value: string) {

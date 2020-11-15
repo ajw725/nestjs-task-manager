@@ -3,7 +3,7 @@ import { TaskStatus } from '../task-status.enum';
 
 export class GetTasksFilterDTO {
   @IsOptional()
-  @IsIn([TaskStatus.TODO, TaskStatus.IN_PROGRESS, TaskStatus.COMPLETED])
+  @IsIn([TaskStatus.OPEN, TaskStatus.IN_PROGRESS, TaskStatus.DONE])
   status: TaskStatus;
 
   @IsOptional()

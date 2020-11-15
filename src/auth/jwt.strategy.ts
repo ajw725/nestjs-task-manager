@@ -6,18 +6,20 @@ import * as config from 'config';
 import { JwtConfig } from '../config.interface';
 import { JwtPayload } from './jwt-payload.interface';
 import { UserRepository } from './user.repository';
+import { ConfigService } from '@nestjs/config';
 
 const jwtConfig: JwtConfig = config.get('jwt');
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
+    private readonly configService: ConfigService,
     @InjectRepository(UserRepository)
     private readonly userRepository: UserRepository,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET || jwtConfig.secret,
+      secretOrKey: configService.get('JWT_SECRET') || jwtConfig.secret,
     });
   }
 
