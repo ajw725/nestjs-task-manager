@@ -64,7 +64,10 @@ export class TasksController {
 
   @Delete('/:id')
   @HttpCode(204)
-  deleteTask(@Param('id', ParseIntPipe) taskId: number): Promise<void> {
-    return this.tasksService.deleteTask(taskId);
+  deleteTask(
+    @Param('id', ParseIntPipe) taskId: number,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.tasksService.deleteTask(user, taskId);
   }
 }
