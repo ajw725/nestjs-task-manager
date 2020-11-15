@@ -3,6 +3,7 @@ import { Task } from './task.entity';
 import { TaskStatus } from './task-status.enum';
 import { CreateTaskDTO } from './dtos/create-task.dto';
 import { GetTasksFilterDTO } from './dtos/get-tasks-filter.dto';
+import { User } from 'src/auth/user.entity';
 
 @EntityRepository(Task)
 export class TaskRepository extends Repository<Task> {
@@ -22,14 +23,17 @@ export class TaskRepository extends Repository<Task> {
     return tasks;
   }
 
-  async createTask(taskDTO: CreateTaskDTO): Promise<Task> {
+  async createTask(user: User, taskDTO: CreateTaskDTO): Promise<Task> {
     const { title, description } = taskDTO;
 
     const task = new Task();
     task.title = title;
     task.description = description;
     task.status = TaskStatus.TODO;
+    task.user = user;
     await task.save();
+
+    delete task.user; // remove user data from returned object
 
     return task;
   }
