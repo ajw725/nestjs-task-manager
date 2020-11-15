@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { genSalt, hash } from 'bcrypt';
+import { genSalt, hash } from 'bcryptjs';
 import { AuthCredentialsDTO } from './dtos/auth-credentials.dto';
 import { User } from './user.entity';
 

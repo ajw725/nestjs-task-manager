@@ -5,7 +5,7 @@ import {
   Column,
   OneToMany,
 } from 'typeorm';
-import { hash } from 'bcrypt';
+import { hash } from 'bcryptjs';
 import { Task } from 'src/tasks/task.entity';
 
 @Entity({ name: 'users' })
