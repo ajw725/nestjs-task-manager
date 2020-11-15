@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskRepository } from './task.repository';
 import { Task } from './task.entity';
@@ -18,11 +22,11 @@ export class TasksService {
     return await this.taskRepository.getTasks(user, filterDTO);
   }
 
-  async getTaskById(id: number): Promise<Task> {
-    const task = await this.taskRepository.findOne(id);
+  async getTaskById(user: User, taskId: number): Promise<Task> {
+    const task = await this.taskRepository.findOne(taskId);
 
-    if (!task) {
-      throw new NotFoundException(`Task with id ${id} not found.`);
+    if (!task || task.user_id !== user.id) {
+      throw new NotFoundException(`Task with id ${taskId} not found.`);
     }
 
     return task;
@@ -32,8 +36,12 @@ export class TasksService {
     return this.taskRepository.createTask(user, taskDTO);
   }
 
-  async updateTask(id: number, newStatus: TaskStatus): Promise<Task> {
-    const task = await this.getTaskById(id);
+  async updateTask(
+    user: User,
+    id: number,
+    newStatus: TaskStatus,
+  ): Promise<Task> {
+    const task = await this.getTaskById(user, id);
     task.status = newStatus;
     await task.save();
     return task;
