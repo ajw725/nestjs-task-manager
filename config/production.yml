@@ -1,2 +1,2 @@
 server:
-  origin: https://nestjs-tasks-ui-ajw.s3-us-west-2.amazonaws.com
+  origin: http://nestjs-tasks-ui-ajw.s3-us-west-2.amazonaws.com
