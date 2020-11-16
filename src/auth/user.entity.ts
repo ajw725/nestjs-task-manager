@@ -6,7 +6,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { hash } from 'bcryptjs';
-import { Task } from 'src/tasks/task.entity';
+import { Task } from '../tasks/task.entity';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {

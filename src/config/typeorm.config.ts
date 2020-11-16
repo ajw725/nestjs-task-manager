@@ -1,5 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { DbConfig } from 'src/config.interface';
+import { DbConfig } from '../config.interface';
 import * as config from 'config';
 import { Logger } from '@nestjs/common';
 

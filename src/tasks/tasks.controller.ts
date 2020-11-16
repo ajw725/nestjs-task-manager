@@ -21,8 +21,8 @@ import { TaskStatus } from './task-status.enum';
 import { CreateTaskDTO } from './dtos/create-task.dto';
 import { GetTasksFilterDTO } from './dtos/get-tasks-filter.dto';
 import { TaskStatusValidationPipe } from './pipes/task-status-validation.pipe';
-import { GetUser } from 'src/auth/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { GetUser } from '../auth/get-user.decorator';
+import { User } from '../auth/user.entity';
 
 @Controller('tasks')
 @UseGuards(AuthGuard())
