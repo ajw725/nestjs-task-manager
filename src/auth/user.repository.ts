@@ -1,9 +1,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 import {
-  BadRequestException,
   ConflictException,
   InternalServerErrorException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { genSalt, hash } from 'bcryptjs';
 import { AuthCredentialsDTO } from './dtos/auth-credentials.dto';
@@ -17,7 +15,7 @@ export class UserRepository extends Repository<User> {
     const salt = await genSalt();
     const passwordHash = await this.hashPassword(password, salt);
 
-    const user = new User();
+    const user = this.create();
     user.username = username;
     user.password = passwordHash;
     user.salt = salt;
